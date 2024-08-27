@@ -1,3 +1,4 @@
+--remove certain items from the minetest basegame
 minetest.unregister_item("default:flint")
 minetest.unregister_item("fire:flint_and_steel")
 minetest.unregister_item("default:pick_wood")
@@ -12,7 +13,9 @@ minetest.unregister_item('default:sword_bronze')
 minetest.unregister_item("default:sword_steel")
 minetest.unregister_item("default:sword_mese")
 minetest.unregister_item("default:sword_diamond")
---temporary: remove all plank recipes
+
+--temporary: 
+--remove all plank recipes
 for i, node in pairs(minetest.registered_nodes) do
     if node.groups.wood then
         minetest.clear_craft({
