@@ -12,7 +12,7 @@ knapping.register_recipe({
 		{0, 0, 0, 1, 1, 1, 0, 0},
 		{0, 0, 0, 1, 1, 0, 0, 0}
 		},
-	texture = "bismuth.png", 
+	texture = "tech_iron.png", 
 })
 
 knapping.register_recipe({
@@ -28,7 +28,7 @@ knapping.register_recipe({
 		{1, 1, 1, 0, 0, 0, 0, 0}, 
 		{0, 0, 0, 0, 0, 0, 0, 0}
 		},
-	texture = "bismuth.png", 
+	texture = "tech_iron.png", 
 })
 
 knapping.register_recipe({
@@ -44,7 +44,7 @@ knapping.register_recipe({
 		{1, 1, 0, 0, 0, 0, 1, 1}, 
 		{0, 0, 0, 0, 0, 0, 0, 0}
 		},
-	texture = "bismuth.png",
+	texture = "tech_iron.png",
 })
 
 knapping.register_recipe({
@@ -60,7 +60,7 @@ knapping.register_recipe({
 		{0, 0, 0, 0, 1, 1, 1, 0}, 
 		{0, 0, 0, 0, 1, 1, 1, 0}
 		},
-	texture = "bismuth.png", 
+	texture = "tech_iron.png", 
 })
 
 knapping.register_recipe({
@@ -76,7 +76,7 @@ knapping.register_recipe({
 		{0, 1, 1, 1, 1, 1, 1, 0}, 
 		{0, 1, 1, 1, 1, 1, 1, 0}
 		},
-	texture = "bismuth.png",
+	texture = "tech_iron.png",
 })
 
 --knapping recipe outputs

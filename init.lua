@@ -1,6 +1,7 @@
 --todo add translation everywhere
 local modname = minetest.get_current_modname()
 local modpath = minetest.get_modpath(modname)
+dofile(modpath .. "/knapping.lua")
 dofile(modpath .. "/sans.lua")
 dofile(modpath .. "/decorations.lua")
 dofile(modpath .. "/knapping_recipes.lua")
