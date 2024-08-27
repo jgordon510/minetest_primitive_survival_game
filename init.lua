@@ -1,4 +1,5 @@
 --todo add translation everywhere
+--todo use modname instead of "primitive"
 local modname = minetest.get_current_modname()
 local modpath = minetest.get_modpath(modname)
 dofile(modpath .. "/global.lua")

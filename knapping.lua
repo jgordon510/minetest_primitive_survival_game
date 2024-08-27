@@ -105,17 +105,11 @@ local function checkConnections(map, id, entTable, craftID, meta)
 	if not map[id] then
 		return
 	end
-	-- if entTable[id] then 
-	-- 	entTable[id].object:remove()
-	-- end
-	-- if true then
-	-- 	return
-	-- end
 	local q = {}
 	local checked = {}
 	table.insert(q, id)
 	checked[id] = true
-	
+	--it's pretty much right of the wikipedia page
 	local found = false
 	while(#q > 0 ) do
 		local id = table.remove(q, 1)
@@ -147,16 +141,13 @@ local function checkConnections(map, id, entTable, craftID, meta)
 		for id, state in pairs(checked) do
 			if(entTable[id]) then
 				entTable[id].object:remove()
-			else
-				-- minetest.log("bad id: " .. id)
 			end
-			
 			map[id] = "X"
 		end
 	end
 	meta:set_string("knap_map", minetest.serialize(map))
 	local done = true
-	for id, n in pairs(map) do
+	for _, n in pairs(map) do
 		if n == 0 then
 			done = false
 		end
@@ -176,9 +167,11 @@ local function place_knapping_plane(id, player_name)
 	local node_pos = crafting_processes[id].pos
 	local meta = minetest.get_meta(node_pos)
 	local start_pos = vector.add(node_pos, -7/16)
-
+	-- this is how it used to work:
 	-- instead of matching the inworld patern to the recipe, we just count up
 	-- how many diggable pieces there are and finnish once they are gone
+
+	--now we 
 	local to_remove = 0
 	local n = 0
 	local entTable = {}
@@ -218,17 +211,20 @@ local function place_knapping_plane(id, player_name)
 					local data = minetest.deserialize(meta:get_string("knap_map"))
 					data[n] = 'X'
 					meta:set_string("knap_map", minetest.serialize(data))
-					
+					--this is the initial four neightbor check that starts 
+					--four checkConnections, which is a flood fill
+					--check in the right direction based on edge proximity
 					if (n-1)%8 > 0 then
 						checkConnections(data, luaent.n - 1, entTable, id, meta)
 					end
 					if (n-1)%8 < 7 then
 						checkConnections(data, luaent.n + 1, entTable, id, meta)
 					end
+					--check up and down
 					checkConnections(data, luaent.n - 8, entTable, id, meta)
 					checkConnections(data, luaent.n + 8, entTable, id, meta)
-					--printMap(id)
-					
+
+					--this is how it used to finish_craft
 					if to_remove == 0 then
 						--finish_craft(id)
 					end
@@ -236,10 +232,6 @@ local function place_knapping_plane(id, player_name)
 			end
 		end
 	end
-
-
-
-	
 	-- so the map doesn't get cluttered, this isn't supposed to be a permanent decoration afterall
 	minetest.after(TIMEOUT, clear_craft, id, crafting_processes[id])
 end
@@ -264,7 +256,6 @@ local function get_knapping_formspec(itemname, pos)
 		formspec[#formspec + 1] = ";]"
 		x = x + 1
 	end
-
 	return table.concat(formspec)
 end
 

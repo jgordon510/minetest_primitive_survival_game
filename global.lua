@@ -1,4 +1,3 @@
-minetest.log("Loading primitive_global")
 primitive = {}
 
 primitive.updateHud = function(meta)
