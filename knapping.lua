@@ -1,3 +1,7 @@
+-- This is based on the mod by Skamiz
+-- codeAtorium changed the behavior of the knapping so that it will remove any pieces
+-- not connected to the main tool
+-- this is achieved with a flood fill algorithm
 minetest.log("knapping api loading...")
 local modname = minetest.get_current_modname()
 
