@@ -20,7 +20,7 @@ for i, meat in pairs(meats) do
 	def.inventory_image = "primitive_campfire_" .. meat .. "_charred.png"
 	def.on_use = minetest.item_eat(eats[meat])
 	local charredName = "primitive:" .. meat .. "_charred"
-	minetest.log(dump(def))
+
 	minetest.register_craftitem(charredName, def)
 	
 	minetest.register_craft({

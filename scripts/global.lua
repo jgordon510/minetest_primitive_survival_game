@@ -75,3 +75,11 @@ primitive.get_pointed_thing = function(player)
     return nil, nil
 end
 
+primitive.table_contains = function(table, element)
+	for _, value in pairs(table) do
+	  if value == element then
+		return true
+	  end
+	end
+	return false
+  end

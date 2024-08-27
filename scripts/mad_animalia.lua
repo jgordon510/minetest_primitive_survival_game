@@ -1,7 +1,7 @@
 local LIGHT_LEVEL_TO_STOP_PURSUIT = 7
 local NIGHT_MAX  = 0.25
 local NIGHT_MIN = 0.85
-local DAY_TRACKING_RANGE = 5
+local DAY_TRACKING_RANGE = 10
 local NIGHT_TRACKING_RANGE = 30
 local PURSUIT_MAX_SPEED = 8
 local PURSUIT_SPEED_UP = 3
@@ -70,7 +70,7 @@ for i, name in pairs(names) do
     assert(def, entName .. " not found")
     def.flee_puncher = true --puncher only gets set at FLEE_AT
 
-    def.damage = math.max(def.damage, 1)
+    def.damage = math.min(def.damage, 1)
     def.on_punch = on_punch  --register the on_punch above
     table.insert(def.utility_stack, animalia.mob_ai.basic_attack) --give them attack 
 end
@@ -83,23 +83,27 @@ wolf.attacks_players = true
 wolf.speed = WOLF_BASE_SPEED
 wolf.tracking_range = DAY_TRACKING_RANGE
 wolf.attack_list = {"animalia:chicken", "animalia:turkey", "animalia:sheep"}
+
 local on_activate = wolf.on_activate
 local function check_tracking_range(self)
     local time = minetest.get_timeofday()
     local night = time < NIGHT_MAX or time > NIGHT_MIN
     if night then
-        self.tracking_range = DAY_TRACKING_RANGE
-    else
         self.tracking_range = NIGHT_TRACKING_RANGE
+    else
+        self.speed = WOLF_BASE_SPEED
+        self.tracking_range = DAY_TRACKING_RANGE
+        
     end
     minetest.after(30, check_tracking_range, self)
 end
 
 wolf.on_activate = function(self, staticdata, dtime_s)
+    local meta = minetest:get_meta(self)
     on_activate(self, staticdata, dtime_s)
     check_tracking_range(self)
 end
-
+local logged = false
 --this replaces animalia's get_attack_score
 function animalia.get_attack_score(entity, attack_list)
 	local pos = entity.stand_pos
@@ -139,15 +143,29 @@ function animalia.get_attack_score(entity, attack_list)
     --changed code here
     --this calls of targetting if player is near a campfire or carrying torch
     --todo test torch here?
-	local time = minetest.get_timeofday()
-    local night = time < NIGHT_MAX or time > NIGHT_MIN
-	if target:is_player() and night then
-		local light_level = minetest.get_node_light(tgt_pos)
-		--minetest.log("tracked players light level: " .. light_level)
-		if light_level > LIGHT_LEVEL_TO_STOP_PURSUIT then
-			score = 0
-		end
-	end
+	
+    local wolf = entity.object:get_entity_name() == "animalia:wolf"
+    if wolf then
+        local time = minetest.get_timeofday()
+        local night = time < NIGHT_MAX or time > NIGHT_MIN
+        if target:is_player() and night then
+            local light_level = minetest.get_node_light(tgt_pos)
+            --minetest.log("tracked players light level: " .. light_level)
+            if light_level > LIGHT_LEVEL_TO_STOP_PURSUIT then
+                score = 0
+            end
+        end
+
+        local enemy = primitive.table_contains(entity.enemies, target:get_player_name())
+        if not night and not enemy then
+            minetest.log(dump(entity.enemies))
+            entity.speed = WOLF_BASE_SPEED + PURSUIT_SPEED_UP
+            local center = vec_add(entity.object:get_pos(), vec_multi(vec_dir(tgt_pos, pos), 10))
+            animalia.action_walk(entity, 3, 0.2, "run", center)
+            score = 0
+        end
+    end
+    
 	entity._target = target
 	return score * 0.5, {entity, target}
 end
