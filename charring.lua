@@ -2,6 +2,9 @@
 local meats = {"beef", "mutton", "porkchop" , "poultry", "rat", "venison"}
 for i, meat in pairs(meats) do
 	local name = "primitive:" .. meat .. "_charred"
+	--these are reduced values from their original ones
+	--the original values are fed into minetest.item_eat in a cb
+	--so there's no way to grab them
 	local eats = {}
 	eats.beef = 4
 	eats.mutton = 3
