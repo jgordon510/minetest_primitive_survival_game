@@ -1,8 +1,9 @@
 
 --these belongs here
 --registers the tool wear recipe
+minetest.log("tool_wear")
 minetest.register_craft({
-    output = "primitive:log_pile",
+    output = "primitive:log_pile_9 9",
     recipe = {
         {"group:tree"},
         {"primitive:hatchet"},
@@ -11,6 +12,7 @@ minetest.register_craft({
         {"primitive:hatchet", "primitive:hatchet"},
     },
 })
+
 
 --executes the tool wear
 minetest.register_on_craft(function(itemstack, player, old_craft_grid, craft_inv)
