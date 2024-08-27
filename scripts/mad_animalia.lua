@@ -146,26 +146,25 @@ function animalia.get_attack_score(entity, attack_list)
     if wolf then
         local time = minetest.get_timeofday()
         local night = time < NIGHT_MAX or time > NIGHT_MIN
-        local fleeing = 0
+        local fleeing = false
         if target:is_player() and night then
             local light_level = minetest.get_node_light(tgt_pos)
             if light_level > LIGHT_LEVEL_TO_STOP_PURSUIT then
-                score = 0
-                fleeing = 1
+                fleeing = true
             end
         end
         local is_enemy = primitive.table_contains(entity.enemies, target:get_player_name())
 
-        if not night and not is_enemy then
-            entity.speed = WOLF_BASE_SPEED *3
-            fleeing = 2
-            score = 0
+        if not night and not is_enemy then 
+            fleeing = true
         end
-        local close = vec_dist(tgt_pos, pos) < DAY_TRACKING_RANGE
-        if fleeing > 0 and close then
-            minetest.log("fleeing: ".. fleeing)
+        local close = vec_dist(tgt_pos, pos) < DAY_TRACKING_RANGE * 2
+        if fleeing and close then
+            score = 0
+            minetest.log("fleeing")
             local gait = "walk"
             if fleeing == 2 then gait = "run" end
+            entity.speed = WOLF_BASE_SPEED *3
             local center = vec_add(entity.object:get_pos(), vec_multi(vec_dir(tgt_pos, pos), 10))
             animalia.action_walk(entity, entity.speed, 0.2, gait, center)
         end
