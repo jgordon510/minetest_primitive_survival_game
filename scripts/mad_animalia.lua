@@ -76,8 +76,7 @@ for i, name in pairs(names) do
 end
 
 --wolves are special
---they attack when close during the day but hunt from far away at night
---todo maybe make them skittish like frogs?
+--they run (but fight back) when close during the day but hunt from far away at night
 local wolf = minetest.registered_entities["animalia:wolf"]
 wolf.attacks_players = true
 wolf.speed = WOLF_BASE_SPEED
