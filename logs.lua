@@ -129,12 +129,12 @@ local def =  {
     description = "Log Pile" ..
     minetest.colorize("#ababab", "\n" .. S("Hold sneak and right/left click to add/remove one at a time.")),
     tiles = {
-        "log_pile_side.png",
-        "log_pile_side.png",
-        "log_pile_top.png",
-        "log_pile_top.png",
-        "log_pile_front.png",
-        "log_pile_front.png",
+        "primitive_log_pile_side.png",
+        "primitive_log_pile_side.png",
+        "primitive_log_pile_top.png",
+        "primitive_log_pile_top.png",
+        "primitive_log_pile_front.png",
+        "primitive_log_pile_front.png",
     },
     drawtype = "nodebox",
 	paramtype = "light",

@@ -12,7 +12,7 @@ knapping.register_recipe({
 		{0, 0, 0, 1, 1, 1, 0, 0},
 		{0, 0, 0, 1, 1, 0, 0, 0}
 		},
-	texture = "tech_iron.png", 
+	texture = "primitive_tech_iron.png", 
 })
 
 knapping.register_recipe({
@@ -28,7 +28,7 @@ knapping.register_recipe({
 		{1, 1, 1, 0, 0, 0, 0, 0}, 
 		{0, 0, 0, 0, 0, 0, 0, 0}
 		},
-	texture = "tech_iron.png", 
+	texture = "primitive_tech_iron.png", 
 })
 
 knapping.register_recipe({
@@ -44,7 +44,7 @@ knapping.register_recipe({
 		{1, 1, 0, 0, 0, 0, 1, 1}, 
 		{0, 0, 0, 0, 0, 0, 0, 0}
 		},
-	texture = "tech_iron.png",
+	texture = "primitive_tech_iron.png",
 })
 
 knapping.register_recipe({
@@ -60,7 +60,7 @@ knapping.register_recipe({
 		{0, 0, 0, 0, 1, 1, 1, 0}, 
 		{0, 0, 0, 0, 1, 1, 1, 0}
 		},
-	texture = "tech_iron.png", 
+	texture = "primitive_tech_iron.png", 
 })
 
 knapping.register_recipe({
@@ -76,19 +76,19 @@ knapping.register_recipe({
 		{0, 1, 1, 1, 1, 1, 1, 0}, 
 		{0, 1, 1, 1, 1, 1, 1, 0}
 		},
-	texture = "tech_iron.png",
+	texture = "primitive_tech_iron.png",
 })
 
 --knapping recipe outputs
 minetest.register_node("primitive:knife_head", {
     description = "Knife Head",
     tiles = {
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png"
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png"
 	},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -108,12 +108,12 @@ minetest.register_node("primitive:knife_head", {
 minetest.register_node("primitive:hatchet_head", {
     description = "Hatchet Head",
     tiles = {
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png"
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png"
 	},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -129,12 +129,12 @@ minetest.register_node("primitive:hatchet_head", {
 minetest.register_node("primitive:spear_head", {
     description = "Spear Head",
     tiles = {
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png"
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png"
 	},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -151,12 +151,12 @@ minetest.register_node("primitive:spear_head", {
 minetest.register_node("primitive:shovel_head", {
     description = "Shovel Head",
     tiles = {
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png"
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png"
 	},
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -173,12 +173,12 @@ minetest.register_node("primitive:shovel_head", {
 minetest.register_node("primitive:hoe_head", {
     description = "Hoe Head",
     tiles = {
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png",
-		"tech_iron.png"
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png",
+		"primitive_tech_iron.png"
 	},
 	drawtype = "nodebox",
 	paramtype = "light",

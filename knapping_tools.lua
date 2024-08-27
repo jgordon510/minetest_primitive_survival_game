@@ -1,6 +1,6 @@
 minetest.register_tool("primitive:knife", {
 	description = "Stone Knife",
-	inventory_image = "knife.png",
+	inventory_image = "primitive_knife.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
 		max_drop_level=0,
@@ -20,7 +20,7 @@ for i = 3, 15 do
 end
 minetest.register_tool("primitive:hatchet", {
 	description = "Stone Hatchet",
-	inventory_image = "hatchet.png",
+	inventory_image = "primitive_hatchet.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
 		max_drop_level=0,
@@ -35,7 +35,7 @@ minetest.register_tool("primitive:hatchet", {
 
 minetest.register_tool("primitive:hoe", {
 	description = "Stone Hoe",
-	inventory_image = "hoe.png",
+	inventory_image = "primitive_hoe.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
 		max_drop_level=0,
@@ -50,7 +50,7 @@ minetest.register_tool("primitive:hoe", {
 
 minetest.register_tool("primitive:spear", {
 	description = "Stone Spear",
-	inventory_image = "spear.png",
+	inventory_image = "primitive_spear.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
 		max_drop_level=0,
@@ -65,7 +65,7 @@ minetest.register_tool("primitive:spear", {
 
 minetest.register_tool("primitive:shovel", {
 	description = "Stone Shovel",
-	inventory_image = "shovel.png",
+	inventory_image = "primitive_shovel.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
 		max_drop_level=0,
@@ -80,7 +80,7 @@ minetest.register_tool("primitive:shovel", {
 
 minetest.register_tool("primitive:bowdrill", {
 	description = "Bow Drill",
-	inventory_image = "bowdrill.png",
+	inventory_image = "primitive_bowdrill.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
 		max_drop_level=0,

@@ -1,6 +1,6 @@
 minetest.log("decorations")
 minetest.register_node("primitive:flint",{
-	tiles = {"tech_iron.png"},
+	tiles = {"primitive_tech_iron.png"},
 	description = "Flint",
 	pointable = true,
 	diggable = true,
@@ -31,7 +31,7 @@ minetest.register_node("primitive:coal",{
 	drawtype = "mesh",
 	paramtype = "light",
 	drop = 'default:coal_lump',
-	mesh = "rock_piles_large_1.obj",
+	mesh = "primitive_rock_piles_large_1.obj",
 	paramtype2 = "facedir",
 	selection_box = {
 		type = "fixed",
@@ -50,7 +50,7 @@ minetest.register_node("primitive:copper",{
 	drawtype = "mesh",
 	paramtype = "light",
 	drop = 'default:copper_lump',
-	mesh = "rock_piles_medium_1.obj",
+	mesh = "primitive_rock_piles_medium_1.obj",
 	paramtype2 = "facedir",
 	selection_box = {
 		type = "fixed",
@@ -69,7 +69,7 @@ minetest.register_node("primitive:tin",{
 	drawtype = "mesh",
 	paramtype = "light",
 	drop = 'default:tin_lump',
-	mesh = "rock_piles_small_1.obj",
+	mesh = "primitive_rock_piles_small_1.obj",
 	paramtype2 = "facedir",
 	selection_box = {
 		type = "fixed",

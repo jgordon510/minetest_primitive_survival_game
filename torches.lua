@@ -6,9 +6,9 @@ local groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1}
 
 --unlit torches
 torch_def.description = "Torch (unlit)"
-torch_def.inventory_image = "survival_torches_torch_on_floor_unlit.png"
+torch_def.inventory_image = "primitive_torches_torch_on_floor_unlit.png"
 torch_def.groups = groups
-torch_def.tiles = {"survival_torches_torch_on_floor_unlit.png"}
+torch_def.tiles = {"primitive_torches_torch_on_floor_unlit.png"}
 torch_def.light_source = 0
 torch_def.drop = "primitive:torch_unlit"
 torch_def.on_place = function(itemstack, placer, pointed_thing)
@@ -46,7 +46,7 @@ local wall_torch_def = table.copy(wall_torch)
 wall_torch_def.groups = groups
 wall_torch_def.light_source = 0
 wall_torch_def.drop = "primitive:torch_unlit"
-wall_torch_def.tiles ={"survival_torches_torch_on_floor_unlit.png"}
+wall_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
 minetest.register_node("primitive:torch_wall_unlit", wall_torch_def)
 
 --ceiling(unlit)
@@ -55,31 +55,31 @@ local ceil_torch_def = table.copy(ceil_torch)
 ceil_torch_def.groups = groups
 ceil_torch_def.light_source = 0
 ceil_torch_def.drop = "primitive:torch_unlit"
-ceil_torch_def.tiles = {"survival_torches_torch_on_floor_unlit.png"}
+ceil_torch_def.tiles = {"primitive_torches_torch_on_floor_unlit.png"}
 minetest.register_node("primitive:torch_ceiling_unlit", ceil_torch_def)
 
 --extinguished
 local unlit_torch = minetest.registered_nodes["primitive:torch_unlit"]
 local unlit_torch_def = table.copy(unlit_torch)
-unlit_torch_def.tiles ={"survival_torches_torch_on_floor_unlit.png"}
+unlit_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
 unlit_torch_def.description = "Torch (entinguished)"
-unlit_torch_def.tiles ={"survival_torches_torch_on_floor_extinguished.png"}
+unlit_torch_def.tiles ={"primitive_torches_torch_on_floor_extinguished.png"}
 unlit_torch_def.drop = ""
 unlit_torch_def.groups = groups
 minetest.register_node("primitive:torch_extinguished", unlit_torch_def)
 
 local unlit_wall_torch = minetest.registered_nodes["primitive:torch_wall_unlit"]
 local unlit_wall_torch_def = table.copy(unlit_wall_torch)
-unlit_wall_torch_def.tiles ={"survival_torches_torch_on_floor_unlit.png"}
-unlit_wall_torch_def.tiles ={"survival_torches_torch_on_floor_extinguished.png"}
+unlit_wall_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
+unlit_wall_torch_def.tiles ={"primitive_torches_torch_on_floor_extinguished.png"}
 unlit_wall_torch_def.drop = ""
 unlit_wall_torch_def.groups = groups
 minetest.register_node("primitive:torch_wall_extinguished", unlit_wall_torch_def)
 
 local unlit_ceil_torch = minetest.registered_nodes["primitive:torch_ceiling_unlit"]
 local unlit_ceil_torch_def = table.copy(unlit_ceil_torch)
-unlit_ceil_torch_def.tiles ={"survival_torches_torch_on_floor_unlit.png"}
-unlit_ceil_torch_def.tiles ={"survival_torches_torch_on_floor_extinguished.png"}
+unlit_ceil_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
+unlit_ceil_torch_def.tiles ={"primitive_torches_torch_on_floor_extinguished.png"}
 unlit_ceil_torch_def.drop = ""
 unlit_ceil_torch_def.groups = groups
 minetest.register_node("primitive:torch_ceiling_extinguished", unlit_ceil_torch_def)
@@ -117,7 +117,7 @@ controls.register_on_hold(function(player, key, time)
 	if not (name =="default:torch") then
 		return
 	end
-	local pointed_thing = survival.get_pointed_thing(player)
+	local pointed_thing = primitive.get_pointed_thing(player)
 	local pointed_thing_pos = minetest.get_pointed_thing_position(pointed_thing)
 	if not pointed_thing_pos then
 		return
@@ -139,13 +139,13 @@ controls.register_on_hold(function(player, key, time)
 	local heat = meta:get_int("torch_heat_val")
     meta:set_int("heating_torch", 1)
 	meta:set_int("torch_heat_val", heat + 10)
-	survival.updateHud(meta)
+	primitive.updateHud(meta)
 	if heat < 500 then return end
 
 	if meta:get_int("heating_torch") == 1 then
 		meta:set_int("heating_torch", 0)
 		meta:set_int("heating_torch_done", 1)
-		minetest.sound_play("fire_flint_and_steel",{pos = pointed_thing_pos, gain = 0.5, max_hear_distance = 8})
+		minetest.sound_play("primitive_fire_flint_and_steel",{pos = pointed_thing_pos, gain = 0.5, max_hear_distance = 8})
 
         local p = minetest.get_node(pointed_thing_pos).param2
         local torchName = "default:torch"
@@ -163,7 +163,7 @@ controls.register_on_hold(function(player, key, time)
         meta:set_int("burntime", 1000)
 	end
 	meta:set_int("torch_heat_val", 0)
-    survival.updateHud(meta)
+    primitive.updateHud(meta)
 end)
 
 controls.register_on_release(function(player, key, time)
@@ -180,14 +180,14 @@ controls.register_on_release(function(player, key, time)
 		return
 	end
 
-	local pointed_thing = survival.get_pointed_thing(player)
+	local pointed_thing = primitive.get_pointed_thing(player)
 	
 	local pointed_thing_pos = minetest.get_pointed_thing_position(pointed_thing)
 	if not pointed_thing_pos then
 		return
 	end
     local meta = minetest.get_meta(pointed_thing_pos)
-    survival.updateHud(meta)
+    primitive.updateHud(meta)
 
 	local pointed_node = minetest.get_node(pointed_thing_pos)
 	
@@ -202,7 +202,7 @@ controls.register_on_release(function(player, key, time)
 	end
 	meta:set_int("heating_torch_done", 0)
 	meta:set_int("heating_torch", 0)
-    survival.updateHud(meta)
+    primitive.updateHud(meta)
 	
 end)
 
@@ -236,7 +236,7 @@ minetest.register_abm({
 					meta:set_int("torch_heat_val", heat )
 					
 					meta:set_int("heating_torch_done", 0)
-                    survival.updateHud(meta)
+                    primitive.updateHud(meta)
 				end
 			end
             
@@ -307,7 +307,7 @@ controls.register_on_hold(function(player, key, time)
 
 	
 
-	local pointed_thing = survival.get_pointed_thing(player)
+	local pointed_thing = primitive.get_pointed_thing(player)
 	
 	local pointed_thing_pos =minetest.get_pointed_thing_position(pointed_thing)
 	if not pointed_thing_pos then
@@ -331,12 +331,12 @@ controls.register_on_hold(function(player, key, time)
 	
 	count = 11 - math.min(10, count)
 	meta:set_int("torch_heat_val", heat + count)
-	survival.updateHud(meta)
+	primitive.updateHud(meta)
 	if heat < 500 then return end
 	if meta:get_int("heating_torch") == 1 then
 		meta:set_int("heating_torch", 0)
 		meta:set_int("heating_torch_done", 1)
-		minetest.sound_play("fire_flint_and_steel",{pos = pointed_thing_pos, gain = 0.5, max_hear_distance = 8})
+		minetest.sound_play("primitive_fire_flint_and_steel",{pos = pointed_thing_pos, gain = 0.5, max_hear_distance = 8})
 		player:set_wielded_item("default:torch " .. wielditem:get_count())
 	end
 	meta:set_int("torch_heat_val", 0)
@@ -354,7 +354,7 @@ controls.register_on_release(function(player, key, time)
 	if not (name =="primitive:torch_unlit" or name == "default:torch") then
 		return
 	end
-	local pointed_thing = survival.get_pointed_thing(player)
+	local pointed_thing = primitive.get_pointed_thing(player)
 	
 	local pointed_thing_pos = minetest.get_pointed_thing_position(pointed_thing)
 	if not pointed_thing_pos then

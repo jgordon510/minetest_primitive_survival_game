@@ -7,10 +7,10 @@ beds.register_bed("primitive:straw_bed", {
 	wield_image = "beds_bed.png",
 	tiles = {
 		bottom = {
-			"survival_beds_straw_bed.png",
+			"primitive_beds_straw_bed.png",
 		},
 		top = {
-			"survival_beds_straw_bed.png",
+			"primitive_beds_straw_bed.png",
 		}
 	},
 	nodebox = {

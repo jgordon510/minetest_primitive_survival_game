@@ -14,7 +14,7 @@ for i, meat in pairs(meats) do
 	
 	local def = table.copy(cookedItem)
 	def.description = def.description .. " (charred)"
-	def.inventory_image = "survival_campfire_" .. meat .. "_charred.png"
+	def.inventory_image = "primitive_campfire_" .. meat .. "_charred.png"
 	def.on_use = minetest.item_eat(eats[meat])
 	local charredName = "primitive:" .. meat .. "_charred"
 	minetest.register_craftitem(charredName, def)
@@ -36,7 +36,7 @@ minetest.get_craft_result = function(input)
 	local result1, result2 = old_get_craft_result(input)
 	if input.method == "charring" then
 		local name = input.items[1]:get_name()
-		name = string.gsub(name, "animalia", "survival_campfire", 1)
+		name = string.gsub(name, "animalia", "primitive_campfire", 1)
 		name = string.gsub(name, "raw", "charred", 1)
 		result1.item = ItemStack(name)
 		result1.time = 10

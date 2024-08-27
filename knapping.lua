@@ -20,7 +20,7 @@ local registered_recipes = {}
 local registered_callbacks = {}
 local crafting_processes = {}
 
-local fallback_texture = "knapping_stone.png"
+local fallback_texture = "primitive_knapping_stone.png"
 local initial_properties = {
 	visual = "cube",
 	collisionbox = {-0.5/8, -0.5/8, -0.5/8, 0.5/8, 0.5/8, 0.5/8},
@@ -36,7 +36,7 @@ minetest.register_entity(modname .. ":stone_piece_go", {
 		if puncher:get_wielded_item():get_name() ~= self.material then return end
 		self.get_removed()
 		self.object:remove()
-		minetest.sound_play("thunk", {gain = 0.3, to_player = puncher:get_player_name()}, true)
+		minetest.sound_play("primitive_thunk", {gain = 0.3, to_player = puncher:get_player_name()}, true)
 	end,
 })
 
@@ -190,7 +190,7 @@ local function place_knapping_plane(id, player_name)
 			meta:set_string("knap_map", minetest.serialize(data))
 			local pos = {x=start_pos.x + (1/8) * (x-1), y=start_pos.y, z=start_pos.z+ (1/8) * (z-1)}
 
-			local texture = recipe.texture and recipe.texture .. "^[sheet:8x8:" .. x-1 .. "," .. 8-z or "knapping_stone.png"
+			local texture = recipe.texture and recipe.texture .. "^[sheet:8x8:" .. x-1 .. "," .. 8-z or "primitive_knapping_stone.png"
 
 			if recipe.recipe[x][z] == 1 then
 				local objref = minetest.add_entity(pos, modname .. ":stone_piece")

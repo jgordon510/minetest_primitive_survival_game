@@ -4,14 +4,14 @@
 local S = minetest.get_translator("primitive")
 
 -- VARIABLES
-survival_campfire = {}
+primitive_campfire = {}
 
-survival_campfire.cooking = 1        -- nil - not cooked, 1 - cooked
-survival_campfire.limited = 1        -- nil - unlimited campfire, 1 - limited
-survival_campfire.flames_ttl = 300    -- Time in seconds until a fire burns down into embers
-survival_campfire.embers_ttl = 600    -- seconds until embers burn out completely leaving ash and an empty fireplace.
-survival_campfire.flare_up = 2       -- seconds from adding a log to embers before it flares into a fire again
-survival_campfire.log_time = survival_campfire.flames_ttl/4;   -- How long does the log increase. In sec.
+primitive_campfire.cooking = 1        -- nil - not cooked, 1 - cooked
+primitive_campfire.limited = 1        -- nil - unlimited campfire, 1 - limited
+primitive_campfire.flames_ttl = 300    -- Time in seconds until a fire burns down into embers
+primitive_campfire.embers_ttl = 600    -- seconds until embers burn out completely leaving ash and an empty fireplace.
+primitive_campfire.flare_up = 2       -- seconds from adding a log to embers before it flares into a fire again
+primitive_campfire.log_time = primitive_campfire.flames_ttl/4;   -- How long does the log increase. In sec.
 
 local function custom_hud(player)
 	hb.init_hudbar(player, "campfire-active", 0)
@@ -23,8 +23,8 @@ local function custom_hud(player)
 	hb.hide_hudbar(player, "campfire-cooking")
 	hb.hide_hudbar(player, "campfire-torch")
 end
-hb.register_hudbar("campfire-active", 0xFFFFFF, S("Campfire"), { icon = "survival_campfire_campfire.png", bgicon = "hbhunger_bgicon.png",  bar = "hbhunger_bar.png" }, 0, 100, false, nil, { format_value = "%.1f", format_max_value = "%d" })
-hb.register_hudbar("campfire-drilling", 0xFFFFFF, S("Heat"), { icon = "survival_campfire_campfire.png", bgicon = "hbhunger_bgicon.png",  bar = "hbhunger_bar.png" }, 0, 20, false, nil, { format_value = "%.1f", format_max_value = "%d" })
+hb.register_hudbar("campfire-active", 0xFFFFFF, S("Campfire"), { icon = "primitive_campfire_campfire.png", bgicon = "hbhunger_bgicon.png",  bar = "hbhunger_bar.png" }, 0, 100, false, nil, { format_value = "%.1f", format_max_value = "%d" })
+hb.register_hudbar("campfire-drilling", 0xFFFFFF, S("Heat"), { icon = "primitive_campfire_campfire.png", bgicon = "hbhunger_bgicon.png",  bar = "hbhunger_bar.png" }, 0, 20, false, nil, { format_value = "%.1f", format_max_value = "%d" })
 hb.register_hudbar("campfire-cooking", 0xFFFFFF, S("Cooking"), { icon = "animalia_poultry_cooked.png", bgicon = "hbhunger_bgicon.png",  bar = "hbhunger_bar.png" }, 0, 100, false, nil, { format_value = "%.1f", format_max_value = "%d" })
 hb.register_hudbar("campfire-torch", 0xFFFFFF, S("Torch"), { icon = "default_torch_on_floor.png", bgicon = "hbhunger_bgicon.png",  bar = "hbhunger_bar.png" }, 0, 100, false, nil, { format_value = "%.1f", format_max_value = "%d" })
 
@@ -55,7 +55,7 @@ local function fire_particles_on(pos) -- 3 layers of fire
 		maxsize = 5,
 		collisiondetection = false,
 		vertical = true,
-		texture = "survival_campfire_anim_fire.png",
+		texture = "primitive_campfire_anim_fire.png",
 		animation = {type="vertical_frames", aspect_w=16, aspect_h=16, length = 0.8,},
 	})
 	meta:set_int("layer_1", id)
@@ -75,7 +75,7 @@ local function fire_particles_on(pos) -- 3 layers of fire
 		maxsize = 0.7,
 		collisiondetection = false,
 		vertical = true,
-		texture = "survival_campfire_anim_fire.png",
+		texture = "primitive_campfire_anim_fire.png",
 		animation = {type="vertical_frames", aspect_w=16, aspect_h=16, length = 0.7,},
 	})
 	meta:set_int("layer_2", id)
@@ -95,7 +95,7 @@ local function fire_particles_on(pos) -- 3 layers of fire
 		maxsize = 4,
 		collisiondetection = true,
 		vertical = true,
-		texture = "survival_campfire_anim_smoke.png",
+		texture = "primitive_campfire_anim_smoke.png",
 		animation = {type="vertical_frames", aspect_w=16, aspect_h=16, length = 0.9,},
 	})
 	meta:set_int("layer_3", id)
@@ -149,7 +149,7 @@ local function cooking(pos, itemstack)
 	local cooked, _ = minetest.get_craft_result({method = method, width = 1, items = {itemstack}})
 	local cookable = cooked.time ~= 0
 	
-	if cookable and survival_campfire.cooking then
+	if cookable and primitive_campfire.cooking then
 		local itemTable = cooked.item:to_table()
 		if not itemTable then return end
 		local eat_y = ItemStack(itemTable.name):get_definition().on_use
@@ -161,7 +161,7 @@ local function cooking(pos, itemstack)
 			local name = itemstack:get_name()
 			local texture = itemstack:get_definition().inventory_image
 			
-			survival.updateHud(meta)
+			primitive.updateHud(meta)
 
 			effect(
 				{x = pos.x, y = pos.y+yOffset, z = pos.z},
@@ -206,18 +206,18 @@ local function add_log(pos, itemstack)
 	local meta = minetest.get_meta(pos)
 	local name = itemstack:get_name()
 	if itemstack:get_definition().groups.log == 1 then
-		local it_val = meta:get_int("it_val") + (survival_campfire.log_time);
+		local it_val = meta:get_int("it_val") + (primitive_campfire.log_time);
 		it_val = math.min(it_val, 305) --limit to a little more than max display value
 		meta:set_int('it_val', it_val);
 		effect(
 			pos,
-			"survival_campfire_log.png",
+			"primitive_campfire_log.png",
 			{x=0, y=-1, z=0},
 			{x=0, y=0, z=0},
 			1,
 			6
 		)
-		survival.updateHud(meta)
+		primitive.updateHud(meta)
 		if not minetest.setting_getbool("creative_mode") then
 			itemstack:take_item()
 			return itemstack
@@ -263,12 +263,12 @@ local grille_cbox = {
 minetest.register_node('primitive:fireplace', {
 	description = S("Fireplace"),
 	drawtype = 'mesh',
-	mesh = 'contained_campfire.obj',
+	mesh = 'primitive_contained_campfire.obj',
 	tiles = {
 		"default_stone.png",
-		"survival_campfire_empty_tile.png",
-		"survival_campfire_empty_tile.png",
-		"survival_campfire_empty_tile.png"
+		"primitive_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png"
 	},
 	walkable = false,
 	buildable_to = false,
@@ -303,14 +303,14 @@ minetest.register_node('primitive:fireplace', {
 minetest.register_node('primitive:campfire', {
 	description = S("Campfire"),
 	drawtype = 'mesh',
-	mesh = 'campfire.obj',
+	mesh = 'primitive_campfire.obj',
 	tiles = {
 		"default_stone.png",
 		"default_wood.png",
-		"survival_campfire_empty_tile.png",
-		"survival_campfire_empty_tile.png"
+		"primitive_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png"
 	},
-	inventory_image = "survival_campfire_campfire.png",
+	inventory_image = "primitive_campfire_campfire.png",
 	walkable = false,
 	buildable_to = false,
 	sunlight_propagates = true,
@@ -348,7 +348,7 @@ minetest.register_node('primitive:campfire', {
 				size = 4,
 				collisiondetection = true,
 				vertical = true,
-				texture = "survival_campfire_anim_smoke.png",
+				texture = "primitive_campfire_anim_smoke.png",
 				animation = {type="vertical_frames", aspect_w=16, aspect_h=16, length = 2.5,},
 			})
 			local meta = minetest.get_meta(pos)
@@ -363,12 +363,12 @@ minetest.register_node('primitive:campfire', {
 			minetest.after(4, function()
 				local heat = meta:get_int("heat_val")
 				meta:set_int("heat_val", heat - 1)
-				survival.updateHud(meta)
+				primitive.updateHud(meta)
 				if heat-1 <= 0 then
 					meta:set_int("drilling", 0)
 				end
 			end)
-			survival.updateHud(meta)
+			primitive.updateHud(meta)
 			itemstack:add_wear_by_uses(100)
 			if heat < 20 then return end
 			meta:set_int("heat_val", 0)
@@ -386,14 +386,14 @@ minetest.register_node('primitive:campfire', {
 minetest.register_node('primitive:campfire_active', {
 	description = S("Active campfire"),
 	drawtype = 'mesh',
-	mesh = 'campfire.obj',
+	mesh = 'primitive_campfire.obj',
 	tiles = {
 		"default_stone.png",
 		"default_wood.png",
-		"survival_campfire_empty_tile.png",
-		"survival_campfire_empty_tile.png"
+		"primitive_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png"
 	},
-	inventory_image = "survival_campfire_campfire.png",
+	inventory_image = "primitive_campfire_campfire.png",
 	walkable = false,
 	buildable_to = false,
 	sunlight_propagates = true,
@@ -412,7 +412,7 @@ minetest.register_node('primitive:campfire_active', {
 		local ownerPlayer = meta:get_string("player")
 		check_owner(player, ownerPlayer)
 		meta:set_string("player", player:get_player_name())
-		survival.updateHud(meta)
+		primitive.updateHud(meta)
 		if not a then
 			if name == "primitive:grille" then
 				itemstack:take_item()
@@ -425,9 +425,9 @@ minetest.register_node('primitive:campfire_active', {
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_int('it_val', survival_campfire.flames_ttl)
+		meta:set_int('it_val', primitive_campfire.flames_ttl)
 		meta:set_int("em_val", 0)
-		survival.updateHud(meta)
+		primitive.updateHud(meta)
 		minetest.get_node_timer(pos):start(2)
 	end,
 
@@ -446,13 +446,13 @@ minetest.register_node('primitive:campfire_active', {
 minetest.register_node('primitive:fireplace_with_embers', {
 	description = S("Fireplace with embers"),
 	drawtype = 'mesh',
-	mesh = 'campfire.obj',
+	mesh = 'primitive_campfire.obj',
 	tiles = {
 		"default_stone.png",
-		"survival_campfire_empty_tile.png",
-		"survival_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png",
 		{
-			name = "survival_campfire_anim_embers.png",
+			name = "primitive_campfire_anim_embers.png",
 			animation = {
 				type="vertical_frames",
 				aspect_w=16,
@@ -477,7 +477,7 @@ minetest.register_node('primitive:fireplace_with_embers', {
 		local a=add_log(pos, itemstack)
 		if a then
 			minetest.swap_node(pos, {name = "primitive:campfire"})
-			minetest.after(survival_campfire.flare_up, function()
+			minetest.after(primitive_campfire.flare_up, function()
 				if minetest.get_meta(pos):get_int("it_val") > 0 then
 					minetest.swap_node(pos, {name="primitive:campfire_active"})
 				end
@@ -491,7 +491,7 @@ minetest.register_node('primitive:fireplace_with_embers', {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("it_val", 0)
-		meta:set_int("em_val", survival_campfire.embers_ttl)
+		meta:set_int("em_val", primitive_campfire.embers_ttl)
 		--meta:set_string('infotext', S("Fireplace with embers"));
 	end,
 })
@@ -499,13 +499,13 @@ minetest.register_node('primitive:fireplace_with_embers', {
 minetest.register_node('primitive:fireplace_with_embers_with_grille', {
 	description = S("Fireplace with embers and grille"),
 	drawtype = 'mesh',
-	mesh = 'contained_campfire.obj',
+	mesh = 'primitive_contained_campfire.obj',
 	tiles = {
 		"default_stone.png",
-		"survival_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png",
 		"default_steel_block.png",
 		{
-			name = "survival_campfire_anim_embers.png",
+			name = "primitive_campfire_anim_embers.png",
 			animation = {
 				type="vertical_frames",
 				aspect_w=16,
@@ -538,7 +538,7 @@ minetest.register_node('primitive:fireplace_with_embers_with_grille', {
 		local a=add_log(pos, itemstack)
 		if a then
 			minetest.swap_node(pos, {name = "primitive:campfire_with_grille"})
-			minetest.after(survival_campfire.flare_up, function()
+			minetest.after(primitive_campfire.flare_up, function()
 				if minetest.get_meta(pos):get_int("it_val") > 0 then
 					minetest.swap_node(pos, {name="primitive:campfire_active_with_grille"})
 				end
@@ -549,7 +549,7 @@ minetest.register_node('primitive:fireplace_with_embers_with_grille', {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("it_val", 0)
-		meta:set_int("em_val", survival_campfire.embers_ttl)
+		meta:set_int("em_val", primitive_campfire.embers_ttl)
 		--meta:set_string('infotext', S("Fireplace with embers"));
 	end,
 })
@@ -557,12 +557,12 @@ minetest.register_node('primitive:fireplace_with_embers_with_grille', {
 minetest.register_node('primitive:fireplace_with_grille', {
 	description = S("Fireplace with grille"),
 	drawtype = 'mesh',
-	mesh = 'contained_campfire.obj',
+	mesh = 'primitive_contained_campfire.obj',
 	tiles = {
 		"default_stone.png",
-		"survival_campfire_empty_tile.png",
+		"primitive_campfire_empty_tile.png",
 		"default_steel_block.png",
-		"survival_campfire_empty_tile.png"
+		"primitive_campfire_empty_tile.png"
 	},
 	buildable_to = false,
 	sunlight_propagates = false,
@@ -599,14 +599,14 @@ minetest.register_node('primitive:fireplace_with_grille', {
 minetest.register_node('primitive:campfire_with_grille', {
 	description = S("Campfire with grille"),
 	drawtype = 'mesh',
-	mesh = 'contained_campfire.obj',
+	mesh = 'primitive_contained_campfire.obj',
 	tiles = {
 		"default_stone.png",
 		"default_wood.png",
 		"default_steel_block.png",
-		"survival_campfire_empty_tile.png"
+		"primitive_campfire_empty_tile.png"
 	},
-	inventory_image = "survival_campfire_campfire.png",
+	inventory_image = "primitive_campfire_campfire.png",
 	buildable_to = false,
 	sunlight_propagates = true,
 	groups = {dig_immediate=3, flammable=0, not_in_creative_inventory=1},
@@ -636,7 +636,7 @@ minetest.register_node('primitive:campfire_with_grille', {
 				size = 4,
 				collisiondetection = true,
 				vertical = true,
-				texture = "survival_campfire_anim_smoke.png",
+				texture = "primitive_campfire_anim_smoke.png",
 				animation = {type="vertical_frames", aspect_w=16, aspect_h=16, length = 2.5,},
 			})
 			local meta = minetest.get_meta(pos)
@@ -646,12 +646,12 @@ minetest.register_node('primitive:campfire_with_grille', {
 			minetest.after(4, function()
 				local heat = meta:get_int("heat_val")
 				meta:set_int("heat_val", heat - 1)
-				survival.updateHud(meta)
+				primitive.updateHud(meta)
 				if heat-1 <= 0 then
 					meta:set_int("drilling", 0)
 				end
 			end)
-			survival.updateHud(meta)
+			primitive.updateHud(meta)
 			itemstack:add_wear_by_uses(20)
 			if heat < 20 then return end
 			meta:set_int("heat_val", 0)
@@ -672,14 +672,14 @@ minetest.register_node('primitive:campfire_with_grille', {
 minetest.register_node('primitive:campfire_active_with_grille', {
 	description = S("Active campfire with grille"),
 	drawtype = 'mesh',
-	mesh = 'contained_campfire.obj',
+	mesh = 'primitive_contained_campfire.obj',
 	tiles = {
 		"default_stone.png",
 		"default_wood.png",
 		"default_steel_block.png",
-		"survival_campfire_empty_tile.png"
+		"primitive_campfire_empty_tile.png"
 	},
-	inventory_image = "survival_campfire_campfire.png",
+	inventory_image = "primitive_campfire_campfire.png",
 	buildable_to = false,
 	sunlight_propagates = true,
 	groups = {oddly_breakable_by_hand=3, flammable=0, not_in_creative_inventory=1, igniter=1},
@@ -710,9 +710,9 @@ minetest.register_node('primitive:campfire_active_with_grille', {
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_int('it_val', survival_campfire.flames_ttl);
+		meta:set_int('it_val', primitive_campfire.flames_ttl);
 		meta:set_int("em_val", 0)
-		survival.updateHud(meta)
+		primitive.updateHud(meta)
 		minetest.get_node_timer(pos):start(2)
 	end,
 
@@ -725,7 +725,7 @@ minetest.register_node('primitive:campfire_active_with_grille', {
 
 	on_timer = function(pos) -- Every 6 seconds play sound fire_small
 		local meta = minetest.get_meta(pos)
-		local handle = minetest.sound_play("fire_small",{pos=pos, max_hear_distance = 18, loop=false, gain=0.1})
+		local handle = minetest.sound_play("primitive_fire_small",{pos=pos, max_hear_distance = 18, loop=false, gain=0.1})
 		meta:set_int("handle", handle)
 		minetest.get_node_timer(pos):start(6)
 	end,
@@ -783,7 +783,7 @@ minetest.register_abm({
 			local meta = minetest.get_meta(pos)
 			local it_val = meta:get_int("it_val") - 1;
 
-			if survival_campfire.limited and survival_campfire.flames_ttl > 0 then
+			if primitive_campfire.limited and primitive_campfire.flames_ttl > 0 then
 				if it_val <= 0 then
 					burn_out(pos, node)
 					return
@@ -791,7 +791,7 @@ minetest.register_abm({
 				meta:set_int('it_val', it_val);
 			end
 
-			if survival_campfire.cooking then
+			if primitive_campfire.cooking then
 				if meta:get_int('cooked_cur_time') <= meta:get_int('cooked_time') then
 					meta:set_int('cooked_cur_time', meta:get_int('cooked_cur_time') + 1);
 				else
@@ -808,7 +808,7 @@ minetest.register_abm({
 				return
 			end
 			local playerMeta = player:get_meta()
-			local pointedThing = survival.get_pointed_thing(player)
+			local pointedThing = primitive.get_pointed_thing(player)
 			
 			--show the campfire we last looked at
 			--todo test the fix I did here
@@ -822,7 +822,7 @@ minetest.register_abm({
 			end
 			local posKey = pos.x .. ":" .. pos.y .. ":" .. pos.z 
 			if playerMeta:get_string("campfire-current") == posKey then
-				survival.updateHud(meta)
+				primitive.updateHud(meta)
 			end
 			
 			--make torch lighting wear down over time
@@ -832,7 +832,7 @@ minetest.register_abm({
 					heat = heat - 10
 					heat = math.max(heat, 0)
 					meta:set_int("torch_heat_val", heat )
-					survival.updateHud(meta)
+					primitive.updateHud(meta)
 					meta:set_int("heating_torch_done", 0)
 				end
 			end
@@ -875,12 +875,12 @@ minetest.register_craft({
 
 minetest.register_craftitem("primitive:grille", {
 	description = S("Metal Grille"),
-	inventory_image = "survival_campfire_grille.png"
+	inventory_image = "primitive_campfire_grille.png"
 })
 
 minetest.register_craftitem("primitive:ash", {
 	description = S("Ash"),
-	inventory_image = "survival_campfire_ash.png"
+	inventory_image = "primitive_campfire_ash.png"
 })
 
 

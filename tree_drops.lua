@@ -160,9 +160,9 @@ for i, node in pairs(minetest.registered_nodes) do
 					end)
 				end
 				--play a long or short tree falling sound
-				local sound = "tree_drops_tree_falling"
+				local sound = "primitive_tree_drops_tree_falling"
 				if count <=4 then
-					sound = "tree_drops_tree_falling_short"
+					sound = "primitive_tree_drops_tree_falling_short"
 				end
 				if count >1 then
 					minetest.sound_play(sound, {
