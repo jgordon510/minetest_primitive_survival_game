@@ -1,3 +1,4 @@
+--todo credit the author
 local YAW_OFFSET = -math.pi/2
 throwing = {}
 

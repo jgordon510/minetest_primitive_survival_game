@@ -1,5 +1,5 @@
 --todo embers appear to be missing when campfire burns out
-
+--todo credit the author
 -- Translation support
 local S = minetest.get_translator("primitive")
 
