@@ -13,6 +13,17 @@ minetest.register_craft({
     },
 })
 
+minetest.register_craft({
+    output = "default:stick 4",
+    recipe = {
+        {"primitive:log_pile_9"},
+        {"primitive:hatchet"},
+    },
+    replacements = {
+        {"primitive:hatchet", "primitive:hatchet"},
+    },
+})
+
 
 --executes the tool wear
 minetest.register_on_craft(function(itemstack, player, old_craft_grid, craft_inv)
