@@ -1,4 +1,3 @@
---test
 local S = minetest.get_translator("primitive")
 beds.register_bed("primitive:straw_bed", {
 	description = S("Straw Bed"),
