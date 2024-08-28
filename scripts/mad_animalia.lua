@@ -162,8 +162,7 @@ function animalia.get_attack_score(entity, attack_list)
         if fleeing and close then
             score = 0
             minetest.log("fleeing")
-            local gait = "walk"
-            if fleeing == 2 then gait = "run" end
+            local gait ="run"
             entity.speed = WOLF_BASE_SPEED *3
             local center = vec_add(entity.object:get_pos(), vec_multi(vec_dir(tgt_pos, pos), 10))
             animalia.action_walk(entity, entity.speed, 0.2, gait, center)

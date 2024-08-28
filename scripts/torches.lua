@@ -11,7 +11,10 @@ torch_def.groups = groups
 torch_def.tiles = {"primitive_torches_torch_on_floor_unlit.png"}
 torch_def.light_source = 0
 torch_def.drop = "primitive:torch_unlit"
+torch_def.floodable = true
+torch_def.on_flood = function() return false end
 torch_def.on_place = function(itemstack, placer, pointed_thing)
+	minetest.log("prim place")
     local under = pointed_thing.under
     local node = minetest.get_node(under)
     local def = minetest.registered_nodes[node.name]
@@ -45,6 +48,7 @@ local wall_torch = minetest.registered_nodes["default:torch_wall"]
 local wall_torch_def = table.copy(wall_torch)
 wall_torch_def.groups = groups
 wall_torch_def.light_source = 0
+wall_torch_def.floodable = false
 wall_torch_def.drop = "primitive:torch_unlit"
 wall_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
 minetest.register_node("primitive:torch_wall_unlit", wall_torch_def)
@@ -54,6 +58,7 @@ local ceil_torch = minetest.registered_nodes["default:torch_ceiling"]
 local ceil_torch_def = table.copy(ceil_torch)
 ceil_torch_def.groups = groups
 ceil_torch_def.light_source = 0
+ceil_torch_def.floodable = false
 ceil_torch_def.drop = "primitive:torch_unlit"
 ceil_torch_def.tiles = {"primitive_torches_torch_on_floor_unlit.png"}
 minetest.register_node("primitive:torch_ceiling_unlit", ceil_torch_def)
@@ -61,16 +66,20 @@ minetest.register_node("primitive:torch_ceiling_unlit", ceil_torch_def)
 --extinguished
 local unlit_torch = minetest.registered_nodes["primitive:torch_unlit"]
 local unlit_torch_def = table.copy(unlit_torch)
-unlit_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
 unlit_torch_def.description = "Torch (entinguished)"
 unlit_torch_def.tiles ={"primitive_torches_torch_on_floor_extinguished.png"}
 unlit_torch_def.drop = ""
 unlit_torch_def.groups = groups
+unlit_torch_def.floodable = true
+unlit_torch_def.on_flood = function() return false end
+unlit_torch_def.on_place = function(itemstack, placer, pointed_thing)
+	minetest.log("place")
+	return itemstack 
+	end
 minetest.register_node("primitive:torch_extinguished", unlit_torch_def)
 
 local unlit_wall_torch = minetest.registered_nodes["primitive:torch_wall_unlit"]
 local unlit_wall_torch_def = table.copy(unlit_wall_torch)
-unlit_wall_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
 unlit_wall_torch_def.tiles ={"primitive_torches_torch_on_floor_extinguished.png"}
 unlit_wall_torch_def.drop = ""
 unlit_wall_torch_def.groups = groups
@@ -78,7 +87,6 @@ minetest.register_node("primitive:torch_wall_extinguished", unlit_wall_torch_def
 
 local unlit_ceil_torch = minetest.registered_nodes["primitive:torch_ceiling_unlit"]
 local unlit_ceil_torch_def = table.copy(unlit_ceil_torch)
-unlit_ceil_torch_def.tiles ={"primitive_torches_torch_on_floor_unlit.png"}
 unlit_ceil_torch_def.tiles ={"primitive_torches_torch_on_floor_extinguished.png"}
 unlit_ceil_torch_def.drop = ""
 unlit_ceil_torch_def.groups = groups
@@ -375,3 +383,59 @@ controls.register_on_release(function(player, key, time)
 	meta:set_int("heating_torch", 0)
 	
 end)
+
+minetest.register_globalstep(function()
+	for _, player in pairs(minetest.get_connected_players()) do
+		local pos           = player:get_pos()
+		local node_check = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z})
+		local nc_draw = minetest.registered_nodes[node_check.name].drawtype
+		if nc_draw == "liquid" or nc_draw == "flowingliquid" then
+			local inv = player:get_inventory()
+			local main = inv:get_list("main")
+			local found = false
+			for _, stack in pairs(main) do
+				if stack:get_name() == "default:torch" then
+					minetest.log("dousing torch")
+					local n = stack:get_count()
+					stack:replace("primitive:torch_unlit " .. n)
+					found = true
+				end
+			end
+			inv:set_list("main", main)
+			local offhand = inv:get_list("offhand")
+			if offhand[1]:get_name() == "default:torch" then
+				local n = offhand[1]:get_count()
+				offhand[1]:replace("primitive:torch_unlit " .. n)
+				found = true
+			end
+			inv:set_list("offhand", offhand)
+			if found then
+				minetest.sound_play("primitive_torch_douse", {
+					pos = pos,
+					gain = 0.5,
+					max_hear_distance = 5,
+				}, true)
+			end
+		end
+	end
+end)
+
+for _, item in pairs(minetest.registered_items) do
+	if string.match(item.name, "default:torch") then
+		minetest.override_item(item.name, {
+			on_flood = function(pos, oldnode, newnode)
+				minetest.log("my flood")
+				local p = minetest.get_node(pos).param2
+				minetest.set_node(pos, {name="primitive:torch_extinguished", param2=p})
+				minetest.add_item(pos, ItemStack("primitive:torch_extinguished 1"))
+				minetest.sound_play("primitive_torch_douse", {
+					pos = pos,
+					gain = 0.5,
+					max_hear_distance = 5,
+				}, true)
+				return false
+			end,
+			floodable=true
+		})
+	end
+end
