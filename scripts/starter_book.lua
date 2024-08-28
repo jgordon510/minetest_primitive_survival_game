@@ -3,6 +3,7 @@ local text = "Welcome to the server. You can't punch trees.  The first thing you
     text = text.. "A hatchet will allow you to chop trees, but you'll need a stick to make one.  These can be gathered by punching leaves.\n"
     text = text.. "Chopping down a tree will fell the entire thing, giving you wood in the process.  The leaves will drop sticks as they decay.\n"
     text = text.. "You can chop logs by combining your axe with wood, resulting in tool wear on your axe.\n"
+    text = text.. "You can also use your ax with logs to chop into sticks.\n"
     text = text.. "You'll next want to make a campfire.  You'll need to make a knife by knapping more flintstone and then use it to collect grass.\n"
     text = text.. "With grass, flint, and logs, you can make a campfire.  You'll need to make a bowdrill as well to light it.\n"
     text = text.. "Your campfire will keep the wolves from attacking at night.  You can also use it to light  your torches.\n"
