@@ -424,7 +424,6 @@ for _, item in pairs(minetest.registered_items) do
 	if string.match(item.name, "default:torch") then
 		minetest.override_item(item.name, {
 			on_flood = function(pos, oldnode, newnode)
-				minetest.log("my flood")
 				local p = minetest.get_node(pos).param2
 				minetest.set_node(pos, {name="primitive:torch_extinguished", param2=p})
 				minetest.add_item(pos, ItemStack("primitive:torch_extinguished 1"))
